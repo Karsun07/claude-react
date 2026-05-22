@@ -1,21 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useOutletContext } from "react-router";
 
-import {Plus,Mic,AudioLines,ChevronDown,Code2,GraduationCap,PenLine,Coffee,ChartNoAxesCombined} from "lucide-react";
+import {
+  Plus,
+  Mic,
+  AudioLines,
+  Code2,
+  GraduationCap,
+  PenLine,
+  Coffee,
+  ChartNoAxesCombined
+} from "lucide-react";
 
 export default function NewChat() {
 
-  // Access Shared State
-  const {chatNames,setChatNames} = useOutletContext();
+  // Shared State
+  const {
+    chatNames,
+    setChatNames
+  } = useOutletContext();
 
   // Input State
   const [input, setInput] = useState("");
 
+  // Track Current Chat
+  const [chatStarted, setChatStarted] = useState(false);
+
+  // Reset when opening new chat
+  useEffect(() => {
+    setChatStarted(false);
+  }, []);
+
   // Dynamic Greeting
   const hour = new Date().getHours();
 
-  const greeting =hour < 12? "Morning": hour < 18? "Afternoon": "Evening";
+  const greeting =
+    hour < 12
+      ? "Morning"
+      : hour < 18
+      ? "Afternoon"
+      : "Evening";
 
   const username = "kartik";
 
@@ -43,17 +68,28 @@ export default function NewChat() {
     }
   ];
 
-  // Add Chat
+  // Handle Enter
   const handleKeyDown = (e) => {
 
     if (e.key === "Enter" && input.trim()) {
 
-      const newChat = {
-        id: Date.now(),
-        title: input
-      };
+      // Only first message creates chat title
+      if (!chatStarted) {
 
-      setChatNames([newChat,...chatNames]);
+        const newChat = {
+          id: Date.now(),
+          title: input
+        };
+
+        setChatNames([
+          newChat,
+          ...chatNames
+        ]);
+
+        setChatStarted(true);
+      }
+
+      // Future messages logic goes here
 
       setInput("");
     }
@@ -102,7 +138,6 @@ export default function NewChat() {
               <span>
                 Sonnet 4.5
               </span>
-
 
             </button>
 
