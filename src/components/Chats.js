@@ -1,24 +1,27 @@
 import { useState } from "react";
 
+import { useOutletContext } from "react-router";
+
 import {Search,MessageCircle} from "lucide-react";
 
 import { Link } from "react-router";
 
-import recentChats from "./utils/ChatsArray";
-
 export default function Chats() {
+
+  // Shared Chats
+  const { chatNames } = useOutletContext();
 
   const [query, setQuery] = useState("");
 
-  // Filter chats
-  const filteredChats = recentChats.filter((chat) =>
+  // Filter Chats
+  const filteredChats = chatNames.filter((chat) =>
     chat.title.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
     <div className="h-screen bg-[#212121] text-[#d4d0c8] overflow-y-auto px-6 md:px-10 py-8">
 
-      {/* Top Header */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
 
         <h1 className="text-4xl font-serif text-[#d7d2cb]">
@@ -42,7 +45,7 @@ export default function Chats() {
 
       </div>
 
-      {/* Search Box */}
+      {/* Search */}
       <div className="flex items-center gap-3 bg-[#2b2b2b] border border-[#3a3a3a] rounded-2xl px-4 py-4 mb-8">
 
         <Search
@@ -60,7 +63,7 @@ export default function Chats() {
 
       </div>
 
-      {/* Chats List */}
+      {/* Chats */}
       <div>
 
         {filteredChats.map((chat) => (
