@@ -1,9 +1,8 @@
 import { Outlet } from "react-router";
 
-export default function MainContent() {
+export default function MainContent({chatNames,setChatNames}) {
+
   return (
-    <div className="h-full">
-      <Outlet />
-    </div>
+    <Outlet context={{chatNames,setChatNames}}/>
   );
 }

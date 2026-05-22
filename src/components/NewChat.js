@@ -1,16 +1,21 @@
+import { useState } from "react";
+
+import { useOutletContext } from "react-router";
+
 import {Plus,Mic,AudioLines,ChevronDown,Code2,GraduationCap,PenLine,Coffee,ChartNoAxesCombined} from "lucide-react";
 
 export default function NewChat() {
 
+  // Access Shared State
+  const {chatNames,setChatNames} = useOutletContext();
+
+  // Input State
+  const [input, setInput] = useState("");
+
   // Dynamic Greeting
   const hour = new Date().getHours();
 
-  const greeting =
-    hour < 12
-      ? "Morning"
-      : hour < 18
-      ? "Afternoon"
-      : "Evening";
+  const greeting =hour < 12? "Morning": hour < 18? "Afternoon": "Evening";
 
   const username = "kartik";
 
@@ -38,6 +43,22 @@ export default function NewChat() {
     }
   ];
 
+  // Add Chat
+  const handleKeyDown = (e) => {
+
+    if (e.key === "Enter" && input.trim()) {
+
+      const newChat = {
+        id: Date.now(),
+        title: input
+      };
+
+      setChatNames([newChat,...chatNames]);
+
+      setInput("");
+    }
+  };
+
   return (
     <div className="h-screen bg-[#212121] flex flex-col items-center justify-center px-4">
 
@@ -52,17 +73,20 @@ export default function NewChat() {
 
       </h1>
 
-      {/* Input Box */}
+      {/* Input Container */}
       <div className="w-full max-w-4xl bg-[#2b2b2b] border border-[#3a3a3a] rounded-[28px] px-6 py-5">
 
         {/* Input */}
         <input
           type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="How can I help you today?"
           className="w-full bg-transparent outline-none text-[#d6d3cd] placeholder:text-[#8a8884] text-lg"
         />
 
-        {/* Bottom Actions */}
+        {/* Bottom */}
         <div className="flex items-center justify-between mt-16">
 
           {/* Left */}
@@ -74,9 +98,12 @@ export default function NewChat() {
           <div className="flex items-center gap-4 text-[#c7c3bc]">
 
             <button className="flex items-center gap-1 text-sm hover:text-white transition">
-              <span>Sonnet 4.5</span>
 
-             
+              <span>
+                Sonnet 4.5
+              </span>
+
+
             </button>
 
             <button className="hover:text-white transition">
@@ -97,6 +124,7 @@ export default function NewChat() {
       <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
 
         {suggestions.map((item, index) => (
+
           <button
             key={index}
             className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#3a3a3a] bg-[#242424] text-[#d0ccc5] hover:bg-[#2e2e2e] transition"
@@ -109,6 +137,7 @@ export default function NewChat() {
             </span>
 
           </button>
+
         ))}
 
       </div>

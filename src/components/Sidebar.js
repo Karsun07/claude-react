@@ -1,10 +1,8 @@
 import {Plus,Search,MessageSquare,Folder} from "lucide-react";
-import recentChats from "./utils/ChatsArray";
+
 import { Link } from "react-router";
 
-export default function Sidebar() {
-
-  
+export default function Sidebar({chatNames}) {
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-[#1f1f1f] to-[#171717] text-gray-300 flex flex-col p-3">
@@ -14,7 +12,7 @@ export default function Sidebar() {
         Claude
       </h1>
 
-      {/* Top Menu */}
+      {/* Menu */}
       <div className="space-y-2">
 
         <Link
@@ -34,10 +32,6 @@ export default function Sidebar() {
             <Search size={18} />
             <span>Search</span>
           </div>
-
-          <span className="text-sm text-gray-500">
-            Ctrl+K
-          </span>
 
         </Link>
 
@@ -68,7 +62,8 @@ export default function Sidebar() {
 
         <div className="space-y-1">
 
-          {recentChats.map((chat) => (
+          {chatNames.map((chat) => (
+
             <Link
               key={chat.id}
               to={`/chat/${chat.id}`}
@@ -76,6 +71,7 @@ export default function Sidebar() {
             >
               {chat.title}
             </Link>
+
           ))}
 
         </div>
@@ -85,4 +81,3 @@ export default function Sidebar() {
     </div>
   );
 }
-
