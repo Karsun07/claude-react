@@ -2,7 +2,7 @@ import {Plus,Search,MessageSquare,Folder} from "lucide-react";
 
 import { Link } from "react-router";
 
-export default function Sidebar({setResetChat,chatNames}) {
+export default function Sidebar({chatNames,setResetChat,setCurrentChatId}) {
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-[#1f1f1f] to-[#171717] text-gray-300 flex flex-col p-3">
@@ -18,8 +18,11 @@ export default function Sidebar({setResetChat,chatNames}) {
         {/* New Chat */}
         <Link
           to="/new-chat"
-          onClick={() => setResetChat((prev) => !prev)}
-          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+          onClick={() => {
+            setResetChat((prev) => !prev);
+            setCurrentChatId(null);
+          }}
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
 
           <Plus size={18} />
@@ -31,7 +34,7 @@ export default function Sidebar({setResetChat,chatNames}) {
         {/* Search */}
         <Link
           to="/search"
-          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
 
           <Search size={18} />
@@ -43,7 +46,7 @@ export default function Sidebar({setResetChat,chatNames}) {
         {/* Chats */}
         <Link
           to="/recents"
-          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
 
           <MessageSquare size={18} />
@@ -55,7 +58,7 @@ export default function Sidebar({setResetChat,chatNames}) {
         {/* Projects */}
         <Link
           to="/projects"
-          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
 
           <Folder size={18} />
@@ -75,11 +78,12 @@ export default function Sidebar({setResetChat,chatNames}) {
 
         <div className="space-y-1">
 
-          {chatNames.map((chat) => (
+          {chatNames?.map((chat) => (
 
             <Link
               key={chat.id}
-              to={`/chat/${chat.id}`}
+              to="/new-chat"
+              onClick={() => setCurrentChatId(chat.id)}
               className="block w-full text-left px-3 py-2 rounded-lg hover:bg-[#2b2b2b] truncate transition"
             >
 

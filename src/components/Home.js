@@ -5,11 +5,11 @@ import MainContent from "./MainContent";
 
 export default function Home() {
 
-  // Recent Chats
+  // All Chats
   const [chatNames, setChatNames] = useState([]);
 
-  // Track Current Chat
-  const [chatStarted, setChatStarted] = useState(false);
+  // Current Chat Id
+  const [currentChatId, setCurrentChatId] = useState(null);
 
   // Reset Trigger
   const [resetChat, setResetChat] = useState(false);
@@ -20,9 +20,7 @@ export default function Home() {
       {/* Sidebar */}
       <div className="hidden md:flex w-64 bg-[#1e1f23] border-r border-gray-700">
 
-        <Sidebar
-          setResetChat={setResetChat} chatNames={chatNames}
-        />
+        <Sidebar chatNames={chatNames} setResetChat={setResetChat} setCurrentChatId={setCurrentChatId}/>
 
       </div>
 
@@ -30,14 +28,7 @@ export default function Home() {
       <div className="flex-1 bg-[#212121] overflow-y-auto">
 
         <MainContent
-          context={{
-            chatNames,
-            setChatNames,
-            chatStarted,
-            setChatStarted,
-            resetChat,
-            setResetChat
-          }}
+          context={{chatNames,setChatNames,currentChatId,setCurrentChatId,resetChat}}
         />
 
       </div>

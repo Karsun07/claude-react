@@ -7,7 +7,7 @@ import {Plus,Mic,AudioLines,Code2,GraduationCap,PenLine,Coffee,ChartNoAxesCombin
 export default function NewChat() {
 
   // Shared State
-  const {chatNames,setChatNames,chatStarted,setChatStarted,resetChat} = useOutletContext();
+  const {chatNames,setChatNames,currentChatId,setCurrentChatId,resetChat} = useOutletContext();
 
   // Input State
   const [input, setInput] = useState("");
@@ -15,17 +15,34 @@ export default function NewChat() {
   // Messages State
   const [messages, setMessages] = useState([]);
 
-  // Reset Current Chat
+  // Load Selected Chat
+  useEffect(() => {
+
+    const selectedChat = chatNames.find(
+      (chat) => chat.id === currentChatId
+    );
+
+    if (selectedChat) {
+      setMessages(selectedChat.messages);
+    }
+
+  }, [currentChatId]);
+
+  // Reset Chat
   useEffect(() => {
     setMessages([]);
     setInput("");
-    setChatStarted(false);
   }, [resetChat]);
 
-  // Dynamic Greeting
+  // Greeting
   const hour = new Date().getHours();
 
-  const greeting =hour < 12? "Good morning": hour < 18? "Good afternoon": "Good evening";
+  const greeting =
+    hour < 12
+      ? "Good morning"
+      : hour < 18
+      ? "Good afternoon"
+      : "Good evening";
 
   const username = "kartik";
 
@@ -58,21 +75,6 @@ export default function NewChat() {
 
     if (e.key === "Enter" && input.trim()) {
 
-      // Create Recent Chat ONLY once
-      if (!chatStarted) {
-
-        const newChat = {
-          id: Date.now(),
-          title: input,
-          time: "Today"
-        };
-
-        // KEEP RECENTS
-        setChatNames((prev) => [newChat,...prev]);
-
-        setChatStarted(true);
-      }
-
       // User Message
       const userMessage = {
         id: Date.now(),
@@ -87,8 +89,43 @@ export default function NewChat() {
         sender: "bot"
       };
 
-      // Update Messages
-      setMessages((prev) => [...prev,userMessage,botMessage]);
+      const updatedMessages = [...messages,userMessage,botMessage];
+
+      // Existing Chat
+      if (currentChatId) {
+
+        const updatedChats = chatNames.map((chat) => {
+
+          if (chat.id === currentChatId) {
+
+            return {
+              ...chat,
+              messages: updatedMessages
+            };
+          }
+
+          return chat;
+        });
+
+        setChatNames(updatedChats);
+
+      } else {
+
+        // New Chat
+        const newChat = {
+          id: Date.now(),
+          title: input,
+          time: "Today",
+          messages: updatedMessages
+        };
+
+        setChatNames((prev) => [newChat,...prev]);
+
+        setCurrentChatId(newChat.id);
+      }
+
+      // Update Current Messages
+      setMessages(updatedMessages);
 
       // Clear Input
       setInput("");
@@ -98,7 +135,7 @@ export default function NewChat() {
   return (
     <div className="h-screen bg-[#212121] flex flex-col">
 
-      {/* EMPTY SCREEN */}
+      {/* Empty Screen */}
       {messages.length === 0 ? (
 
         <div className="flex-1 flex flex-col items-center justify-center px-4">
@@ -114,10 +151,9 @@ export default function NewChat() {
 
           </h1>
 
-          {/* Input Box */}
+          {/* Input */}
           <div className="w-full max-w-4xl bg-[#2b2b2b] border border-[#3a3a3a] rounded-[28px] px-6 py-5">
 
-            {/* Input */}
             <input
               type="text"
               value={input}
@@ -127,30 +163,23 @@ export default function NewChat() {
               className="w-full bg-transparent outline-none text-[#d6d3cd] placeholder:text-[#8a8884] text-lg"
             />
 
-            {/* Bottom */}
             <div className="flex items-center justify-between mt-10">
 
-              {/* Left */}
               <button className="text-[#a1a1a1] hover:text-white transition">
                 <Plus size={22} />
               </button>
 
-              {/* Right */}
               <div className="flex items-center gap-4 text-[#c7c3bc]">
 
-                <button className="flex items-center gap-1 text-sm hover:text-white transition">
-
-                  <span>
-                    Sonnet 4.5
-                  </span>
-
+                <button className="text-sm">
+                  Sonnet 4.5
                 </button>
 
-                <button className="hover:text-white transition">
+                <button>
                   <Mic size={18} />
                 </button>
 
-                <button className="hover:text-white transition">
+                <button>
                   <AudioLines size={18} />
                 </button>
 
@@ -186,9 +215,7 @@ export default function NewChat() {
 
       ) : (
 
-        /* CHAT SCREEN */
         <>
-
           {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-10">
 
@@ -238,7 +265,6 @@ export default function NewChat() {
 
             <div className="w-full max-w-4xl mx-auto bg-[#2b2b2b] border border-[#3a3a3a] rounded-[28px] px-6 py-5">
 
-              {/* Input */}
               <input
                 type="text"
                 value={input}
@@ -248,43 +274,11 @@ export default function NewChat() {
                 className="w-full bg-transparent outline-none text-[#d6d3cd] placeholder:text-[#8a8884] text-lg"
               />
 
-              {/* Bottom */}
-              <div className="flex items-center justify-between mt-10">
-
-                {/* Left */}
-                <button className="text-[#a1a1a1] hover:text-white transition">
-                  <Plus size={22} />
-                </button>
-
-                {/* Right */}
-                <div className="flex items-center gap-4 text-[#c7c3bc]">
-
-                  <button className="flex items-center gap-1 text-sm hover:text-white transition">
-
-                    <span>
-                      Sonnet 4.5
-                    </span>
-
-                  </button>
-
-                  <button className="hover:text-white transition">
-                    <Mic size={18} />
-                  </button>
-
-                  <button className="hover:text-white transition">
-                    <AudioLines size={18} />
-                  </button>
-
-                </div>
-
-              </div>
-
             </div>
 
           </div>
 
         </>
-
       )}
 
     </div>
