@@ -1,50 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useOutletContext } from "react-router";
 
-import {
-  Plus,
-  Mic,
-  AudioLines,
-  Code2,
-  GraduationCap,
-  PenLine,
-  Coffee,
-  ChartNoAxesCombined
-} from "lucide-react";
+import {Plus,Mic,AudioLines,Code2,GraduationCap,PenLine,Coffee,ChartNoAxesCombined} from "lucide-react";
 
 export default function NewChat() {
 
   // Shared State
-  const {
-    chatNames,
-    setChatNames
-  } = useOutletContext();
+  const {chatNames,setChatNames,chatStarted,setChatStarted} = useOutletContext();
 
   // Input State
   const [input, setInput] = useState("");
 
-  // Track Current Chat
-  const [chatStarted, setChatStarted] = useState(false);
-
-  // Reset when opening new chat
-  useEffect(() => {
-    setChatStarted(false);
-  }, []);
-
   // Dynamic Greeting
   const hour = new Date().getHours();
 
-  const greeting =
-    hour < 12
-      ? "Morning"
-      : hour < 18
-      ? "Afternoon"
-      : "Evening";
+  const greeting =hour < 12? "Morning": hour < 18? "Afternoon": "Evening";
 
   const username = "kartik";
 
-  // Suggestion Buttons
+  // Suggestions
   const suggestions = [
     {
       icon: <Code2 size={15} />,
@@ -73,7 +48,7 @@ export default function NewChat() {
 
     if (e.key === "Enter" && input.trim()) {
 
-      // Only first message creates chat title
+      // Only first message becomes chat title
       if (!chatStarted) {
 
         const newChat = {
@@ -89,7 +64,7 @@ export default function NewChat() {
         setChatStarted(true);
       }
 
-      // Future messages logic goes here
+      // Future message logic here
 
       setInput("");
     }
@@ -109,7 +84,7 @@ export default function NewChat() {
 
       </h1>
 
-      {/* Input Container */}
+      {/* Input Box */}
       <div className="w-full max-w-4xl bg-[#2b2b2b] border border-[#3a3a3a] rounded-[28px] px-6 py-5">
 
         {/* Input */}
@@ -155,7 +130,7 @@ export default function NewChat() {
 
       </div>
 
-      {/* Suggestion Buttons */}
+      {/* Suggestions */}
       <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
 
         {suggestions.map((item, index) => (

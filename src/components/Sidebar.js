@@ -2,7 +2,7 @@ import {Plus,Search,MessageSquare,Folder} from "lucide-react";
 
 import { Link } from "react-router";
 
-export default function Sidebar({chatNames}) {
+export default function Sidebar({chatNames,setChatStarted}) {
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-[#1f1f1f] to-[#171717] text-gray-300 flex flex-col p-3">
@@ -15,14 +15,17 @@ export default function Sidebar({chatNames}) {
       {/* Menu */}
       <div className="space-y-2">
 
+        {/* New Chat */}
         <Link
           to="/new-chat"
+          onClick={() => setChatStarted(false)}
           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
           <Plus size={18} />
           <span>New chat</span>
         </Link>
 
+        {/* Search */}
         <Link
           to="/search"
           className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-black hover:bg-[#2b2b2b] transition"
@@ -35,6 +38,7 @@ export default function Sidebar({chatNames}) {
 
         </Link>
 
+        {/* Chats */}
         <Link
           to="/recents"
           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
@@ -43,6 +47,7 @@ export default function Sidebar({chatNames}) {
           <span>Chats</span>
         </Link>
 
+        {/* Projects */}
         <Link
           to="/projects"
           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"

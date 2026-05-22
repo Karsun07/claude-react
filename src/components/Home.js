@@ -1,11 +1,15 @@
 import { useState } from "react";
+
 import Sidebar from "./Sidebar";
 import MainContent from "./MainContent";
 
 export default function Home() {
 
-  // Dynamic Chats State
+  // Recent Chats
   const [chatNames, setChatNames] = useState([]);
+
+  // Track Current Chat
+  const [chatStarted, setChatStarted] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -13,9 +17,7 @@ export default function Home() {
       {/* Sidebar */}
       <div className="hidden md:flex w-64 bg-[#1e1f23] border-r border-gray-700">
 
-        <Sidebar
-          chatNames={chatNames}
-        />
+        <Sidebar chatNames={chatNames} setChatStarted={setChatStarted}/>
 
       </div>
 
@@ -25,6 +27,8 @@ export default function Home() {
         <MainContent
           chatNames={chatNames}
           setChatNames={setChatNames}
+          chatStarted={chatStarted}
+          setChatStarted={setChatStarted}
         />
 
       </div>
