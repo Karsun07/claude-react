@@ -1,8 +1,19 @@
-import { Plus, Search, MessageSquare, Folder } from "lucide-react";
+import {Plus,Search,MessageSquare,Folder} from "lucide-react";
+
+import { Link } from "react-router";
 
 export default function Sidebar() {
 
-  const recentChats = [];
+  const recentChats = [
+    {
+      id: 1,
+      title: "How to deploy on AWS?"
+    },
+    {
+      id: 2,
+      title: "React component design"
+    }
+  ];
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-[#1f1f1f] to-[#171717] text-gray-300 flex flex-col p-3">
@@ -12,15 +23,21 @@ export default function Sidebar() {
         Claude
       </h1>
 
-      {/* Menu */}
+      {/* Top Menu */}
       <div className="space-y-2">
 
-        <button className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition">
+        <Link
+          to="/new-chat"
+          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+        >
           <Plus size={18} />
           <span>New chat</span>
-        </button>
+        </Link>
 
-        <button className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-black hover:bg-[#2b2b2b] transition">
+        <Link
+          to="/search"
+          className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-black hover:bg-[#2b2b2b] transition"
+        >
 
           <div className="flex items-center gap-3">
             <Search size={18} />
@@ -31,21 +48,27 @@ export default function Sidebar() {
             Ctrl+K
           </span>
 
-        </button>
+        </Link>
 
-        <button className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition">
+        <Link
+          to="/recents"
+          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+        >
           <MessageSquare size={18} />
           <span>Chats</span>
-        </button>
+        </Link>
 
-        <button className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition">
+        <Link
+          to="/projects"
+          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
+        >
           <Folder size={18} />
           <span>Projects</span>
-        </button>
+        </Link>
 
       </div>
 
-      {/* Dynamic Recents */}
+      {/* Recents */}
       <div className="mt-8 flex-1 overflow-y-auto">
 
         <h2 className="text-sm text-gray-500 mb-3">
@@ -55,12 +78,13 @@ export default function Sidebar() {
         <div className="space-y-1">
 
           {recentChats.map((chat) => (
-            <button
+            <Link
               key={chat.id}
-              className="w-full text-left px-3 py-2 rounded-lg hover:bg-[#2b2b2b] truncate transition"
+              to={`/chat/${chat.id}`}
+              className="block w-full text-left px-3 py-2 rounded-lg hover:bg-[#2b2b2b] truncate transition"
             >
               {chat.title}
-            </button>
+            </Link>
           ))}
 
         </div>
