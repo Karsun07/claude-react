@@ -76,7 +76,7 @@ export default function NewChat() {
             <button className="flex items-center gap-1 text-sm hover:text-white transition">
               <span>Sonnet 4.5</span>
 
-              <ChevronDown size={15} />
+             
             </button>
 
             <button className="hover:text-white transition">
