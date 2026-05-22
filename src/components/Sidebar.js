@@ -1,19 +1,10 @@
 import {Plus,Search,MessageSquare,Folder} from "lucide-react";
-
+import recentChats from "./utils/ChatsArray";
 import { Link } from "react-router";
 
 export default function Sidebar() {
 
-  const recentChats = [
-    {
-      id: 1,
-      title: "How to deploy on AWS?"
-    },
-    {
-      id: 2,
-      title: "React component design"
-    }
-  ];
+  
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-[#1f1f1f] to-[#171717] text-gray-300 flex flex-col p-3">
