@@ -2,7 +2,7 @@ import {Plus,Search,MessageSquare,Folder} from "lucide-react";
 
 import { Link } from "react-router";
 
-export default function Sidebar({chatNames,setChatStarted}) {
+export default function Sidebar({setResetChat,chatNames}) {
 
   return (
     <div className="h-screen w-full bg-gradient-to-b from-[#1f1f1f] to-[#171717] text-gray-300 flex flex-col p-3">
@@ -18,23 +18,25 @@ export default function Sidebar({chatNames,setChatStarted}) {
         {/* New Chat */}
         <Link
           to="/new-chat"
-          onClick={() => setChatStarted(false)}
+          onClick={() => setResetChat((prev) => !prev)}
           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
+
           <Plus size={18} />
+
           <span>New chat</span>
+
         </Link>
 
         {/* Search */}
         <Link
           to="/search"
-          className="flex items-center justify-between w-full px-3 py-2 rounded-lg bg-black hover:bg-[#2b2b2b] transition"
+          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
 
-          <div className="flex items-center gap-3">
-            <Search size={18} />
-            <span>Search</span>
-          </div>
+          <Search size={18} />
+
+          <span>Search</span>
 
         </Link>
 
@@ -43,8 +45,11 @@ export default function Sidebar({chatNames,setChatStarted}) {
           to="/recents"
           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
+
           <MessageSquare size={18} />
+
           <span>Chats</span>
+
         </Link>
 
         {/* Projects */}
@@ -52,8 +57,11 @@ export default function Sidebar({chatNames,setChatStarted}) {
           to="/projects"
           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-[#2b2b2b] transition"
         >
+
           <Folder size={18} />
+
           <span>Projects</span>
+
         </Link>
 
       </div>
@@ -74,7 +82,9 @@ export default function Sidebar({chatNames,setChatStarted}) {
               to={`/chat/${chat.id}`}
               className="block w-full text-left px-3 py-2 rounded-lg hover:bg-[#2b2b2b] truncate transition"
             >
+
               {chat.title}
+
             </Link>
 
           ))}

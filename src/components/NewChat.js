@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useOutletContext } from "react-router";
 
@@ -7,13 +7,20 @@ import {Plus,Mic,AudioLines,Code2,GraduationCap,PenLine,Coffee,ChartNoAxesCombin
 export default function NewChat() {
 
   // Shared State
-  const {chatNames,setChatNames,chatStarted,setChatStarted} = useOutletContext();
+  const {chatNames,setChatNames,chatStarted,setChatStarted,resetChat} = useOutletContext();
 
   // Input State
   const [input, setInput] = useState("");
 
   // Messages State
   const [messages, setMessages] = useState([]);
+
+  // Reset Current Chat
+  useEffect(() => {
+    setMessages([]);
+    setInput("");
+    setChatStarted(false);
+  }, [resetChat]);
 
   // Dynamic Greeting
   const hour = new Date().getHours();
@@ -46,7 +53,7 @@ export default function NewChat() {
     }
   ];
 
-  // Handle Enter
+  // Send Message
   const handleKeyDown = (e) => {
 
     if (e.key === "Enter" && input.trim()) {
@@ -56,13 +63,12 @@ export default function NewChat() {
 
         const newChat = {
           id: Date.now(),
-          title: input
+          title: input,
+          time: "Today"
         };
 
-        setChatNames([
-          newChat,
-          ...chatNames
-        ]);
+        // KEEP RECENTS
+        setChatNames((prev) => [newChat,...prev]);
 
         setChatStarted(true);
       }
@@ -82,11 +88,7 @@ export default function NewChat() {
       };
 
       // Update Messages
-      setMessages((prev) => [
-        ...prev,
-        userMessage,
-        botMessage
-      ]);
+      setMessages((prev) => [...prev,userMessage,botMessage]);
 
       // Clear Input
       setInput("");
@@ -108,7 +110,7 @@ export default function NewChat() {
               ✳
             </span>
 
-            {greeting},{username}
+            {greeting}, {username}
 
           </h1>
 

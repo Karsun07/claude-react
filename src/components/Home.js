@@ -11,13 +11,18 @@ export default function Home() {
   // Track Current Chat
   const [chatStarted, setChatStarted] = useState(false);
 
+  // Reset Trigger
+  const [resetChat, setResetChat] = useState(false);
+
   return (
     <div className="flex h-screen overflow-hidden">
 
       {/* Sidebar */}
       <div className="hidden md:flex w-64 bg-[#1e1f23] border-r border-gray-700">
 
-        <Sidebar chatNames={chatNames} setChatStarted={setChatStarted}/>
+        <Sidebar
+          setResetChat={setResetChat} chatNames={chatNames}
+        />
 
       </div>
 
@@ -25,10 +30,14 @@ export default function Home() {
       <div className="flex-1 bg-[#212121] overflow-y-auto">
 
         <MainContent
-          chatNames={chatNames}
-          setChatNames={setChatNames}
-          chatStarted={chatStarted}
-          setChatStarted={setChatStarted}
+          context={{
+            chatNames,
+            setChatNames,
+            chatStarted,
+            setChatStarted,
+            resetChat,
+            setResetChat
+          }}
         />
 
       </div>

@@ -1,15 +1,8 @@
 import { Outlet } from "react-router";
 
-export default function MainContent({chatNames,setChatNames,chatStarted,setChatStarted}) {
+export default function MainContent({ context }) {
 
   return (
-    <Outlet
-      context={{
-        chatNames,
-        setChatNames,
-        chatStarted,
-        setChatStarted
-      }}
-    />
+    <Outlet context={context} />
   );
 }
